@@ -196,10 +196,10 @@ process_video() {
 	# Set the temporary output directory: this is where the video will be
 	# actually written before being moved its final location once conversion is
 	# terminated.
-	OUTPUT_DIR_TMP="$(mktemp -d "$OUTPUT_DIR/.XXXXXX")"
+	OUTPUT_DIR_TMP="$(mktemp -d "$AC_TEMP_DIR/post-recording-XXXXXXXXXX")"
 	if [ ! -d "$OUTPUT_DIR_TMP" ]; then
 		hb_rc=1
-		log "ERROR: Failed to create temporary directory under '$AC_OUTPUT_DIR'."
+		log "ERROR: Failed to create temporary directory under '$AC_TEMP_DIR'."
 	fi
 	
 	# Set the temporary output filename.
@@ -395,6 +395,7 @@ while true; do
         AC_OUTPUT_DIR="${OUTPUT_DIRECTORY:-/watch}"
         AC_OUTPUT_SUBDIR="${OUTPUT_SUBDIRECTORY:-SAME_AS_SRC}"
         AC_KEEP_SOURCE="${DELETE_TS:-1}"
+        AC_TEMP_DIR="${TEMP_DIRECTORY:-/temp}"
         AC_BACKUP_DIR="${BACKUP_DIRECTORY:-/backup}"
         AC_SOURCE_EXT="${SOURCE_EXT:-ts}"
         AC_POST_PROC="${POST_PROCESS:-comchap}"

@@ -1,4 +1,4 @@
-﻿# chacawaca/post-recording
+﻿﻿# chacawaca/post-recording
 
 FROM ubuntu:20.04
 
@@ -16,7 +16,6 @@ RUN apt update && \
       mkdir /config /output && \
       apt-get install -y python3 git build-essential libargtable2-dev autoconf \
       libtool-bin libsdl1.2-dev libavutil-dev libavformat-dev libavcodec-dev && \
-	
 # Clone Comskip
     cd /opt && \
     git clone git://github.com/erikkaashoek/Comskip && \
@@ -24,13 +23,11 @@ RUN apt update && \
     ./autogen.sh && \
     ./configure && \
     make && \
-
 # Clone Comchap
     cd /opt && \
     git clone https://github.com/BrettSheleski/comchap.git && \
     cd comchap && \
-    make && \	
-	
+    make && \
 # cleanup
     apt autoremove -y && \
     apt clean -y && \

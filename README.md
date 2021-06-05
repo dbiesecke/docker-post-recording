@@ -10,12 +10,14 @@ docker run -d \
 	--name=post-recording \
 	-v /docker/appdata/post-recording:/config:rw \
 	-v /home/user/videos:/watch:rw \
+	-v /home/user/temp:/temp:rw \
 	-v /home/user/backup:/backup:rw \
 	-e DELETE_TS=1 \
 	-e SUBTITLES=0 \
 	-e CONVERSION_FORMAT=mkv \
 	-e SOURCE_EXT=ts \
 	-e POST_PROCESS=comchap \
+	-e SOURCE_STABLE_TIME=10 \
 	-e PUID=99 \
 	-e PGID=100 \
 	-e UMASK=000 \
@@ -27,12 +29,14 @@ Where:
 
 - `/config`: This is where the application stores its configuration, log and any files needing persistency. 
 - `/watch`: This location contains .ts files that need converting. Other files are not processed.  
+- `/temp`: This location contains the temporary files that are created during transcoding, etc.
 - `/backup`: Optional, only used if DELETE_TS is set to 2.
 - `DELETE_TS`: After converting remove the original .ts recording file. 0 = Yes, 1 = No, 2 = Move to backup directory **USE DELETE_TS=1 UNTIL YOU'RE SURE IT WORKS WITH YOUR VIDEO RECORDINGS.**
 - `SUBTITLES`: Extract subtitles to .srt. 0= Yes, 1 = No
 - `CONVERSION_FORMAT`: Select output extension, your custom.sh need to be valid for this extension.
 - `SOURCE_EXT`: If you want to convert something else than .ts
 - `POST_PROCESS`: option are comchap or comcut. default: comchap
+- `SOURCE_STABLE_TIME`: When a new recording file is found, check every x seconds to see if the recording has completed. default: 10
 - `PUID`: ID of the user the application runs as.
 - `PGID`: ID of the group the application runs as.
 - `UMASK`: Mask that controls how file permissions are set for newly created files.
@@ -47,8 +51,7 @@ Where:
 
 **[Help with Intel](https://forums.unraid.net/topic/77943-guide-plex-hardware-acceleration-using-intel-quick-sync/)**  
 Intel GPU Use  
-Edit your go file to include:  
-modprobe i915, save and reboot, then  
+Install the "Intel GPU TOP" and "GPU Statistics" plugins (unraid 6.9+)
 add --device=/dev/dri to "extra parameters" (switch on advanced view)  
 
 **[Help with Nvidia](https://forums.unraid.net/topic/77813-plugin-linuxserverio-unraid-nvidia/)**  
